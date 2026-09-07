@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}ჩემი პროფილი — EventHub{% endblock %}
+{% block content %}
+
+<div class="row">
+  <div class="col-lg-5 mb-4">
+    <div class="card shadow-sm">
+      <div class="card-body text-center">
+        <img src="{{ url_for('static', filename='uploads/profile_pics/' + current_user.profile_pic) }}"
+             class="profile-pic-lg mb-3" alt="პროფილის სურათი">
+        <h4>{{ current_user.name }}</h4>
+        <p class="text-muted">{{ current_user.email }}</p>
+        <p class="text-muted small">წევრი {{ current_user.created_at|kadate('date') }}-დან</p>
+
+        <hr>
+        <h6 class="text-start">პროფილის რედაქტირება</h6>
+        <form method="POST" enctype="multipart/form-data" class="text-start" novalidate>
+          {{ form.hidden_tag() }}
+          <div class="mb-3">
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else "")) }}
+            {% for error in form.name.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+          </div>
+          <div class="mb-3">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+            {% for error in form.email.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+          </div>
+          <div class="mb-3">
+            {{ form.profile_pic.label(class="form-label") }}
+            {{ form.profile_pic(class="form-control" + (" is-invalid" if form.profile_pic.errors else "")) }}
+            {% for error in form.profile_pic.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+          </div>
+          {{ form.submit(class="btn btn-primary w-100") }}
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-7">
+    <h4 class="mb-3">ჩემი ივენთები</h4>
+    {% if my_events %}
+      <div class="list-group">
+        {% for event in my_events %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <a href="{{ url_for('events.detail', event_id=event.id) }}" class="fw-bold text-decoration-none">{{ event.title }}</a>
+            <div class="small text-muted">{{ event.event_date|kadate('full') }} &middot; {{ category_labels.get(event.category, event.category) }}</div>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="{{ url_for('events.edit', event_id=event.id) }}" class="btn btn-sm btn-outline-primary">რედაქტირება</a>
+            <form method="POST" action="{{ url_for('events.delete', event_id=event.id) }}"
+                  onsubmit="return confirm('წავშალო ეს ივენთი?');">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <button type="submit" class="btn btn-sm btn-outline-danger">წაშლა</button>
+            </form>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-muted">ჯერ არ დაგიმატებია ივენთი. <a href="{{ url_for('events.add') }}">დაამატე ახლა</a>.</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

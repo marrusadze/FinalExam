@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}ივენთები — EventHub{% endblock %}
+{% block content %}
+
+<header class="hero full-bleed">
+  <div class="hero__inner">
+    <p class="hero__eyebrow">თბილისი და მის მიღმა</p>
+    <h1 class="hero__title">იპოვე შენი შემდეგი <em>დაუვიწყარი</em> ივენთი</h1>
+    <p class="hero__sub">
+      კონცერტები, ტექ-შეხვედრები, გამოფენები, მატჩები და ვორქშოფები —
+      ერთ სივრცეში: აღმოაჩინე, გაფილტრე და დაგეგმე.
+    </p>
+  </div>
+</header>
+
+<div class="full-bleed">
+  <div class="page-wide">
+
+    <form method="GET" class="filter-bar">
+      <div class="filter-bar__field">
+        <label for="q">ძიება</label>
+        <input type="text" id="q" name="q" value="{{ search }}" class="form-control" placeholder="სათაური ან ადგილი…">
+      </div>
+      <div class="filter-bar__field">
+        <label for="category">კატეგორია</label>
+        <select id="category" name="category" class="form-select">
+          <option value="">ყველა კატეგორია</option>
+          {% for cat in categories %}
+            <option value="{{ cat }}" {% if current_category == cat %}selected{% endif %}>{{ category_labels.get(cat, cat) }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="filter-bar__field">
+        <label for="sort">დალაგება</label>
+        <select id="sort" name="sort" class="form-select">
+          <option value="posted_desc" {% if current_sort == "posted_desc" %}selected{% endif %}>ჯერ ახალი</option>
+          <option value="posted_asc" {% if current_sort == "posted_asc" %}selected{% endif %}>ჯერ ძველი</option>
+          <option value="date_asc" {% if current_sort == "date_asc" %}selected{% endif %}>თარიღით (მალე)</option>
+          <option value="date_desc" {% if current_sort == "date_desc" %}selected{% endif %}>თარიღით (გვიან)</option>
+          <option value="price_asc" {% if current_sort == "price_asc" %}selected{% endif %}>ფასი (ზრდადი)</option>
+          <option value="price_desc" {% if current_sort == "price_desc" %}selected{% endif %}>ფასი (კლებადი)</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> ძიება</button>
+    </form>
+
+    <div class="sec-head">
+      <div>
+        <h2 class="sec-title">მომავალი ივენთები</h2>
+        <p class="sec-sub">სულ {{ pagination.total }} ივენთი</p>
+      </div>
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('events.add') }}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> ივენთის დამატება</a>
+      {% endif %}
+    </div>
+
+    {% if events %}
+    <div class="ev-grid">
+      {% for event in events %}
+      <article class="ev-card" data-cat="{{ event.category }}">
+        <div class="ev-card__media">
+          <span class="ev-card__cat">{{ category_labels.get(event.category, event.category) }}</span>
+          <span class="ev-card__date">
+            <span class="d">{{ event.event_date|kadate('day') }}</span>
+            <span class="m">{{ event.event_date|kadate('mon') }}</span>
+          </span>
+        </div>
+        <div class="ev-card__body">
+          <h3 class="ev-card__title">
+            <a href="{{ url_for('events.detail', event_id=event.id) }}">{{ event.title }}</a>
+          </h3>
+          <p class="ev-card__meta">
+            <span><i class="bi bi-geo-alt"></i> {{ event.location }}</span>
+            <a href="{{ url_for('events.author_profile', user_id=event.author.id) }}">
+              <i class="bi bi-person"></i> {{ event.author.name }}
+            </a>
+          </p>
+          <p class="ev-card__desc">{{ event.short_description }}</p>
+        </div>
+        <div class="ev-card__foot">
+          <span class="ev-card__price {% if event.ticket_price <= 0 %}is-free{% endif %}">
+            {% if event.ticket_price > 0 %}{{ "%.2f"|format(event.ticket_price) }} ₾{% else %}უფასო{% endif %}
+          </span>
+          <a class="ev-card__more" href="{{ url_for('events.detail', event_id=event.id) }}">
+            დეტალურად <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    {% if pagination.pages > 1 %}
+    <nav class="mt-5">
+      <ul class="pagination justify-content-center">
+        {% for p in range(1, pagination.pages + 1) %}
+          <li class="page-item {% if p == pagination.page %}active{% endif %}">
+            <a class="page-link" href="{{ url_for('events.index', page=p, category=current_category, sort=current_sort, q=search) }}">{{ p }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+    {% endif %}
+
+    {% else %}
+    <div class="empty-state">
+      <i class="bi bi-calendar-x"></i>
+      <p class="mt-3 mb-0">შენი ფილტრებით ივენთი ვერ მოიძებნა. სცადე ფართო ძიება.</p>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}

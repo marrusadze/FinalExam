@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}{{ event.title }} — EventHub{% endblock %}
+{% block content %}
+
+<div class="detail-hero full-bleed" data-cat="{{ event.category }}">
+  <div class="detail-hero__inner">
+    <a class="detail-hero__back" href="{{ url_for('events.index') }}">
+      <i class="bi bi-arrow-left"></i> ყველა ივენთი
+    </a>
+    <div><span class="cat-chip">{{ category_labels.get(event.category, event.category) }}</span></div>
+    <h1 class="detail-hero__title">{{ event.title }}</h1>
+    <p class="detail-hero__by">
+      გამოაქვეყნა
+      <a href="{{ url_for('events.author_profile', user_id=event.author.id) }}">{{ event.author.name }}</a>
+      &middot; {{ event.posted_at|kadate('date') }}
+    </p>
+  </div>
+</div>
+
+<div class="detail-wrap">
+  <div class="detail-main">
+    <div class="fact-row">
+      <div class="fact">
+        <i class="bi bi-calendar3"></i>
+        <div><span>თარიღი და დრო</span><b>{{ event.event_date|kadate('full') }}</b></div>
+      </div>
+      <div class="fact">
+        <i class="bi bi-geo-alt"></i>
+        <div><span>ადგილი</span><b>{{ event.location }}</b></div>
+      </div>
+      <div class="fact">
+        <i class="bi bi-ticket-perforated"></i>
+        <div><span>ბილეთის ფასი</span><b>{% if event.ticket_price > 0 %}{{ "%.2f"|format(event.ticket_price) }} ₾{% else %}შესვლა უფასოა{% endif %}</b></div>
+      </div>
+      <div class="fact">
+        <i class="bi bi-person-badge"></i>
+        <div><span>ორგანიზატორი</span><b>{{ event.organizer }}</b></div>
+      </div>
+    </div>
+
+    <h2 class="detail-h">ივენთის შესახებ</h2>
+    <p class="detail-desc">{{ event.full_description }}</p>
+
+    {% if current_user.is_authenticated and current_user.id == event.user_id %}
+    <div class="detail-actions">
+      <a href="{{ url_for('events.edit', event_id=event.id) }}" class="btn btn-outline-primary">
+        <i class="bi bi-pencil"></i> რედაქტირება
+      </a>
+      <form method="POST" action="{{ url_for('events.delete', event_id=event.id) }}"
+            onsubmit="return confirm('წავშალო ეს ივენთი? მოქმედება შეუქცევადია.');">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="btn btn-outline-danger">
+          <i class="bi bi-trash"></i> წაშლა
+        </button>
+      </form>
+    </div>
+    {% endif %}
+  </div>
+
+  <aside class="detail-side">
+    <div class="weather-card">
+      <div class="weather-card__head">
+        <i class="bi bi-cloud-sun"></i> ამინდი &mdash; {{ event.location }}
+      </div>
+      {% if weather %}
+        <div class="d-flex align-items-center gap-3">
+          <img src="{{ weather.icon_url }}" alt="{{ weather.description }}" width="64" height="64">
+          <div>
+            <div class="weather-card__temp">{{ weather.temp }}&deg;</div>
+            <div class="weather-card__desc">{{ weather.description }}</div>
+          </div>
+        </div>
+        <div class="weather-card__extra">
+          იგრძნობა როგორც {{ weather.feels_like }}&deg;C &middot; ტენიანობა {{ weather.humidity }}%
+        </div>
+      {% else %}
+        <p class="mb-0" style="color:rgba(255,255,255,.82);">
+          ამ ადგილისთვის ამინდის მონაცემები ამჟამად მიუწვდომელია.
+        </p>
+      {% endif %}
+    </div>
+  </aside>
+</div>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}403 — წვდომა აკრძალულია{% endblock %}
+{% block content %}
+<div class="error-page">
+  <div class="error-code">403</div>
+  <h2 class="mt-3">წვდომა აკრძალულია</h2>
+  <p class="text-muted">ამის უფლება არ გაქვს — რედაქტირება და წაშლა მხოლოდ საკუთარ ივენთებზე შეგიძლია.</p>
+  <a href="{{ url_for('events.index') }}" class="btn btn-primary mt-2">
+    <i class="bi bi-house-door"></i> ივენთებზე დაბრუნება
+  </a>
+</div>
+{% endblock %}

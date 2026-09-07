@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}შესახებ — EventHub{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-9">
+    <h1 class="mb-4">EventHub-ის შესახებ</h1>
+    <p class="lead">
+      EventHub არის საზოგადოებრივი პლატფორმა, სადაც ნებისმიერს შეუძლია აღმოაჩინოს
+      ადგილობრივი ივენთები, დარეგისტრირებულ მომხმარებლებს კი — გამოაქვეყნონ
+      საკუთარი: კონცერტები, ტექ-შეხვედრები, გამოფენები, სპორტული მატჩები,
+      ვორქშოფები და სხვა.
+    </p>
+    <p>
+      პროექტი შექმნილია კომუნიკაციის სკოლის Python-ის კურსის ფინალურ
+      გამოცდად. ის აჩვენებს სრულ Flask-სტეკს: სერვერზე რენდერებული Jinja2
+      შაბლონები, ფორმებთან მუშაობა CSRF-დაცვით, ავტორიზაცია, რელაციური
+      მონაცემთა ბაზა SQLAlchemy-ით, CRUD ოპერაციები მფლობელობაზე დაფუძნებული
+      უფლებებით, საკუთარი შეცდომების გვერდები, ლოგირება, ავტომატური ტესტები და
+      გარე API-ის ინტეგრაცია (OpenWeatherMap) ივენთის ადგილმდებარეობისთვის.
+    </p>
+
+    <div class="row mt-4 g-3">
+      <div class="col-md-4">
+        <div class="card feature-tile h-100">
+          <div class="card-body">
+            <i class="bi bi-search"></i>
+            <h5 class="mt-3">აღმოაჩინე</h5>
+            <p class="text-muted mb-0">დაათვალიერე და გაფილტრე ივენთები კატეგორიით, თარიღით ან ფასით — ანგარიშის გარეშე.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card feature-tile h-100">
+          <div class="card-body">
+            <i class="bi bi-plus-circle"></i>
+            <h5 class="mt-3">გამოაქვეყნე</h5>
+            <p class="text-muted mb-0">დარეგისტრირებულ მომხმარებელს შეუძლია დაამატოს, დაარედაქტიროს და წაშალოს საკუთარი ივენთები.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card feature-tile h-100">
+          <div class="card-body">
+            <i class="bi bi-cloud-sun"></i>
+            <h5 class="mt-3">დაგეგმე</h5>
+            <p class="text-muted mb-0">ცოცხალი ამინდი თითოეული ივენთის ადგილისთვის — OpenWeatherMap-ის მეშვეობით.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
