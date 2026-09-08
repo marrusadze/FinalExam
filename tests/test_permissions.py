@@ -1,4 +1,4 @@
-"""Permission test: a user must not be able to edit or delete someone else's event."""
+#Permission test: a user must not be able to edit or delete someone else's event.
 
 from app.models import Event
 from tests.conftest import login
