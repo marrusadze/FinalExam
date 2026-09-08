@@ -5,9 +5,6 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.extensions import db, login_manager
 
-# Category values are stored in the database and used as CSS keys, so they stay
-# in English (stable identifiers). CATEGORY_LABELS holds the Georgian text shown
-# to users.
 CATEGORIES = ["Music", "Tech", "Art", "Sport", "Education", "Other"]
 
 CATEGORY_LABELS = {
