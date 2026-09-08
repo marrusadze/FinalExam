@@ -37,8 +37,6 @@ def create_app(config_name=None):
     app.register_blueprint(profile_bp)
     app.register_blueprint(api_bp)
 
-    # The JSON API is stateless and token-authenticated, not cookie/session
-    # based, so CSRF protection does not apply to it.
     csrf.exempt(api_bp)
 
     register_error_handlers(app)
@@ -76,7 +74,6 @@ KA_MONTHS_SHORT = [
 def register_template_filters(app):
     @app.template_filter("kadate")
     def kadate(value, style="full"):
-        """Format a datetime in Georgian (month names spelled out, not locale-dependent)."""
         if value is None:
             return ""
         if style == "full":
