@@ -1,4 +1,4 @@
-"""API tests: JSON responses, HTTP methods, and API-key authentication."""
+#API tests: JSON responses, HTTP methods, and API-key authentication.
 
 from app.models import Event
 
