@@ -1,4 +1,4 @@
-"""Route test: public pages should load without requiring authentication."""
+#Route test: public pages should load without requiring authentication.
 
 
 def test_index_page_loads(client):
