@@ -1,4 +1,4 @@
-"""Login test: registration + successful/failed login flows."""
+#Login test: registration + successful/failed login flows.
 
 from tests.conftest import login
 
