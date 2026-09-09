@@ -9,10 +9,6 @@ OPENWEATHER_URL = "https://api.openweathermap.org/data/2.5/weather"
 
 
 def get_weather_for_location(location):
-    """Return a small dict describing current weather for `location`,
-    or None if it can't be fetched (no API key configured, network error,
-    city not found, etc.). Never raises.
-    """
     api_key = current_app.config.get("OPENWEATHER_API_KEY")
     if not api_key:
         logger.info("Weather lookup skipped for %r: no OPENWEATHER_API_KEY configured.", location)
