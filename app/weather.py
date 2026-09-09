@@ -1,12 +1,3 @@
-"""
-Small wrapper around the OpenWeatherMap "current weather" API.
-
-Kept deliberately simple: one function, returns a plain dict on success or
-None on any failure (missing key, network error, unknown city, etc.), and
-logs failures so they show up in logs/app.log per the assignment's logging
-requirement ("API request error").
-"""
-
 import logging
 
 import requests
