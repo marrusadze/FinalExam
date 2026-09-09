@@ -1,10 +1,3 @@
-/* ==========================================================================
-   EventHub — design system
-   Palette: festival gradient (violet → fuchsia → rose), warm paper base,
-   one signature colour per event category.
-   Fonts: Bricolage Grotesque (display) + Inter (text), loaded in base.html.
-   ========================================================================== */
-
 :root {
   /* --- ink & surfaces --- */
   --ink:        #191320;
@@ -37,7 +30,6 @@
   --bs-body-font-family: var(--body);
 }
 
-/* one colour identity per category ----------------------------------------- */
 [data-cat="Music"]     { --cat: #7c3aed; --cat-2: #c084fc; }
 [data-cat="Tech"]      { --cat: #0ea5e9; --cat-2: #67e8f9; }
 [data-cat="Art"]       { --cat: #ec4899; --cat-2: #fda4af; }
@@ -45,9 +37,7 @@
 [data-cat="Education"] { --cat: #f59e0b; --cat-2: #fcd34d; }
 [data-cat="Other"]     { --cat: #6366f1; --cat-2: #a5b4fc; }
 
-/* --------------------------------------------------------------------------
-   Base
-   -------------------------------------------------------------------------- */
+
 * { box-sizing: border-box; }
 
 body {
@@ -89,26 +79,18 @@ a:hover { color: var(--brand-strong); }
   border-radius: 4px;
 }
 
-/* --------------------------------------------------------------------------
-   Layout helpers
-   -------------------------------------------------------------------------- */
 .container { max-width: 1280px; }
 
 .site-main { padding-top: 2rem; padding-bottom: 4rem; }
 
-/* break an element out of its container to the full viewport width */
 .full-bleed { margin-inline: calc(50% - 50vw); }
 
-/* re-constrain content inside a full-bleed band, but wider than .container */
 .page-wide {
   max-width: 1400px;
   margin-inline: auto;
   padding-inline: clamp(1.25rem, 4vw, 3rem);
 }
 
-/* --------------------------------------------------------------------------
-   Navbar
-   -------------------------------------------------------------------------- */
 .site-nav {
   background: rgba(250, 247, 243, .82);
   backdrop-filter: saturate(1.4) blur(12px);
@@ -169,9 +151,6 @@ a:hover { color: var(--brand-strong); }
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23191320' stroke-width='2.5' stroke-linecap='round' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-/* --------------------------------------------------------------------------
-   Buttons
-   -------------------------------------------------------------------------- */
 .btn {
   --bs-btn-border-radius: 999px;
   font-weight: 600;
@@ -214,9 +193,6 @@ a:hover { color: var(--brand-strong); }
 .btn-link { color: var(--brand); font-weight: 600; text-decoration: none; }
 .btn-link:hover { color: var(--brand-strong); text-decoration: underline; }
 
-/* --------------------------------------------------------------------------
-   Forms
-   -------------------------------------------------------------------------- */
 .form-label { font-weight: 600; color: var(--ink); margin-bottom: .4rem; }
 .form-text { color: var(--ink-soft); }
 
@@ -235,9 +211,6 @@ a:hover { color: var(--brand-strong); }
 }
 .form-control.is-invalid, .form-select.is-invalid { border-color: #e0483b; }
 
-/* --------------------------------------------------------------------------
-   Cards / list groups (generic)
-   -------------------------------------------------------------------------- */
 .card {
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
@@ -252,9 +225,6 @@ a:hover { color: var(--brand-strong); }
 .list-group-item:first-child { border-top-left-radius: 14px; border-top-right-radius: 14px; }
 .list-group-item:last-child { border-bottom-left-radius: 14px; border-bottom-right-radius: 14px; }
 
-/* --------------------------------------------------------------------------
-   Flash messages
-   -------------------------------------------------------------------------- */
 .alert {
   border: 0;
   border-radius: 14px;
@@ -267,12 +237,9 @@ a:hover { color: var(--brand-strong); }
 .alert-warning { background: #fef3e2; color: #9a5b06; }
 .alert-info    { background: #eaf1fe; color: #1c4a8a; }
 
-/* --------------------------------------------------------------------------
-   Hero (events index)
-   -------------------------------------------------------------------------- */
 .hero {
   position: relative;
-  margin-top: -2rem;                 /* sit flush under the navbar */
+  margin-top: -2rem;             
   padding: clamp(3rem, 5.5vw, 5rem) 0 clamp(4rem, 7vw, 5.75rem);
   background: var(--grad);
   color: #fff;
@@ -327,9 +294,6 @@ a:hover { color: var(--brand-strong); }
   margin: 0;
 }
 
-/* --------------------------------------------------------------------------
-   Filter bar (overlaps the hero)
-   -------------------------------------------------------------------------- */
 .filter-bar {
   display: grid;
   grid-template-columns: 2.2fr 1fr 1fr auto;
@@ -360,9 +324,6 @@ a:hover { color: var(--brand-strong); }
   .filter-bar { grid-template-columns: 1fr; margin-top: -2.25rem; }
 }
 
-/* --------------------------------------------------------------------------
-   Section header
-   -------------------------------------------------------------------------- */
 .sec-head {
   display: flex;
   align-items: flex-end;
@@ -374,9 +335,6 @@ a:hover { color: var(--brand-strong); }
 .sec-title { margin: 0; }
 .sec-sub { margin: .25rem 0 0; color: var(--ink-soft); }
 
-/* --------------------------------------------------------------------------
-   Event cards (poster style)
-   -------------------------------------------------------------------------- */
 .ev-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
@@ -525,9 +483,6 @@ a:hover { color: var(--brand-strong); }
 }
 .empty-state i { font-size: 2.5rem; color: #c9bfd8; }
 
-/* --------------------------------------------------------------------------
-   Pagination
-   -------------------------------------------------------------------------- */
 .pagination {
   --bs-pagination-color: var(--ink-soft);
   --bs-pagination-hover-color: var(--brand-strong);
@@ -540,9 +495,6 @@ a:hover { color: var(--brand-strong); }
 }
 .page-link { border-radius: 12px !important; font-weight: 600; }
 
-/* --------------------------------------------------------------------------
-   Event detail
-   -------------------------------------------------------------------------- */
 .detail-hero {
   margin-top: -2rem;
   padding: clamp(2.75rem, 6vw, 4.75rem) 0 clamp(3.5rem, 8vw, 5.5rem);
@@ -648,9 +600,6 @@ a:hover { color: var(--brand-strong); }
   .detail-side { position: sticky; top: 92px; }
 }
 
-/* --------------------------------------------------------------------------
-   Weather card
-   -------------------------------------------------------------------------- */
 .weather-card {
   background: linear-gradient(160deg, #4f46e5, #7c3aed);
   color: #fff;
@@ -680,9 +629,6 @@ a:hover { color: var(--brand-strong); }
   color: rgba(255,255,255,.82);
 }
 
-/* --------------------------------------------------------------------------
-   Profile / author
-   -------------------------------------------------------------------------- */
 .profile-pic-lg {
   width: 132px;
   height: 132px;
@@ -699,9 +645,6 @@ a:hover { color: var(--brand-strong); }
   margin-bottom: 2.25rem;
 }
 
-/* --------------------------------------------------------------------------
-   Forms page wrapper
-   -------------------------------------------------------------------------- */
 .form-card {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -712,9 +655,6 @@ a:hover { color: var(--brand-strong); }
   margin-inline: auto;
 }
 
-/* --------------------------------------------------------------------------
-   About page feature tiles
-   -------------------------------------------------------------------------- */
 .feature-tile { height: 100%; border: 1px solid var(--line); border-radius: 18px; }
 .feature-tile i {
   font-size: 1.6rem;
@@ -725,9 +665,6 @@ a:hover { color: var(--brand-strong); }
   border-radius: 14px;
 }
 
-/* --------------------------------------------------------------------------
-   Footer
-   -------------------------------------------------------------------------- */
 .site-footer {
   background: var(--ink);
   color: rgba(255,255,255,.66);
@@ -751,9 +688,6 @@ a:hover { color: var(--brand-strong); }
   gap: .55rem;
 }
 
-/* --------------------------------------------------------------------------
-   Error pages
-   -------------------------------------------------------------------------- */
 .error-page {
   min-height: 60vh;
   display: flex;
@@ -773,9 +707,6 @@ a:hover { color: var(--brand-strong); }
   color: transparent;
 }
 
-/* --------------------------------------------------------------------------
-   Small screens
-   -------------------------------------------------------------------------- */
 @media (max-width: 575px) {
   body { font-size: 1rem; }
   .ev-grid { grid-template-columns: 1fr; }
