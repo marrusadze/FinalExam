@@ -1,8 +1,3 @@
-"""
-Shared extension instances, created here (not in __init__.py) so that
-models.py and routes can import them without circular-import issues.
-"""
-
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
