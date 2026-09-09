@@ -1,20 +1,3 @@
-"""
-JSON REST API for events.
-
-Covers the syllabus point "Flask RESTful API": resource-oriented endpoints,
-standard HTTP methods (GET / POST / PUT / PATCH / DELETE), JSON responses, and
-API-key authentication for the write operations.
-
-Design notes:
-- Read endpoints (GET) are public.
-- Write endpoints require the header ``X-API-Key`` to match ``API_KEY`` from the
-  config. This is the simplest scheme from the lecture ("API Key - a token in a
-  header"); it identifies a trusted client, not an end user, so events created
-  through the API are attributed to the first registered account.
-- The API is stateless: no session, no cookies -> CSRF does not apply, so the
-  blueprint is exempted from CSRFProtect in ``app/__init__.py``.
-"""
-
 import logging
 from datetime import datetime
 from functools import wraps
@@ -28,12 +11,7 @@ logger = logging.getLogger(__name__)
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 
-
-# --------------------------------------------------------------------------- #
-# helpers
-# --------------------------------------------------------------------------- #
 def event_to_dict(event):
-    """Serialize an Event (and a slim view of its author) to a JSON-ready dict."""
     return {
         "id": event.id,
         "title": event.title,
@@ -50,8 +28,6 @@ def event_to_dict(event):
 
 
 def require_api_key(view):
-    """Decorator: reject the request with 401 unless a valid X-API-Key is sent."""
-
     @wraps(view)
     def wrapped(*args, **kwargs):
         expected = current_app.config.get("API_KEY", "")
@@ -67,11 +43,6 @@ def require_api_key(view):
 
 
 def _parse_event_payload(data, partial=False):
-    """Validate an incoming JSON body.
-
-    Returns ``(fields, None)`` on success or ``(None, (json_response, status))``
-    on failure. With ``partial=True`` (PATCH) only the provided keys are checked.
-    """
     fields = {}
     required = [
         "title",
@@ -119,10 +90,6 @@ def _parse_event_payload(data, partial=False):
 
     return fields, None
 
-
-# --------------------------------------------------------------------------- #
-# read endpoints (public)
-# --------------------------------------------------------------------------- #
 @api_bp.get("/events")
 def list_events():
     """GET /api/events?category=Music&q=tbilisi - list events as JSON."""
@@ -151,10 +118,6 @@ def get_event(event_id):
         return jsonify(error="Event not found"), 404
     return jsonify(event_to_dict(event))
 
-
-# --------------------------------------------------------------------------- #
-# write endpoints (X-API-Key required)
-# --------------------------------------------------------------------------- #
 @api_bp.post("/events")
 @require_api_key
 def create_event():
@@ -230,10 +193,6 @@ def delete_event(event_id):
     logger.info("API: event deleted id=%s", event_id)
     return jsonify(deleted=event_id)
 
-
-# --------------------------------------------------------------------------- #
-# blueprint-local error handlers -> keep the API JSON-only
-# --------------------------------------------------------------------------- #
 @api_bp.errorhandler(405)
 def method_not_allowed(error):
     return jsonify(error="Method not allowed"), 405
