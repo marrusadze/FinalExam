@@ -1,12 +1,3 @@
-"""
-Centralised logging configuration for EventHub.
-
-Writes to logs/app.log (rotating so it doesn't grow forever) and also to the
-console. Other modules should just do `import logging` and
-`logger = logging.getLogger(__name__)` - this file configures the root
-handlers once, on app startup.
-"""
-
 import logging
 import os
 from logging.handlers import RotatingFileHandler
@@ -35,9 +26,6 @@ def setup_logging(app):
 
     root_logger = logging.getLogger()
     root_logger.setLevel(logging.INFO)
-
-    # Avoid duplicate handlers when the app factory is called more than once
-    # (e.g. during tests).
     root_logger.handlers = [file_handler, console_handler]
 
     app.logger.setLevel(logging.INFO)
